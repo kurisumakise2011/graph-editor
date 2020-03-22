@@ -139,4 +139,10 @@ public interface GModel extends EObject {
 	 */
 	void setContentHeight(double value);
 
+	boolean isUpdated();
+
+	void bump();
+
+	void persist();
+
 } // GModel

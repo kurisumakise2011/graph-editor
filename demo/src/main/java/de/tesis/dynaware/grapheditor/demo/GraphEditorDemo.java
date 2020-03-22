@@ -3,8 +3,6 @@
  */
 package de.tesis.dynaware.grapheditor.demo;
 
-import java.net.URL;
-
 import de.tesis.dynaware.grapheditor.GraphEditor;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,10 +11,13 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.net.URL;
+
 /**
  * A demo application to show uses of the {@link GraphEditor} library.
  */
 public class GraphEditorDemo extends Application {
+    public static Stage primary;
 
     private static final String APPLICATION_TITLE = "Graph Editor Demo"; //$NON-NLS-1$
     private static final String DEMO_STYLESHEET = "demo.css"; //$NON-NLS-1$
@@ -26,6 +27,7 @@ public class GraphEditorDemo extends Application {
 
     @Override
     public void start(final Stage stage) throws Exception {
+        primary = stage;
 
         final URL location = getClass().getResource("GraphEditorDemo.fxml"); //$NON-NLS-1$
         final FXMLLoader loader = new FXMLLoader();

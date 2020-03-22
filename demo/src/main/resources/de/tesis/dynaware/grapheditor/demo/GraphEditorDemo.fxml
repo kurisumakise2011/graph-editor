@@ -41,7 +41,14 @@
 				</Menu>
 				<Menu text="Actions">
 					<items>
-						<MenuItem text="Add Node" onAction="#addNode" accelerator="Shortcut+N"/>
+<!--						<MenuItem text="Add Node" onAction="#addNode" accelerator="Shortcut+N"/>-->
+						<Menu text="Add Node" fx:id="addNodeMenu">
+							<items>
+								<MenuItem text="AND" onAction="#addNodeAnd" accelerator="Shortcut+A"/>
+								<MenuItem text="Tr" onAction="#addNodeTr" accelerator="Shortcut+T"/>
+								<MenuItem text="OR-3" onAction="#addNodeOr3" accelerator="Shortcut+O"/>
+							</items>
+						</Menu>
 						<MenuItem text="Add Connector" fx:id="addConnectorButton" onAction="#addConnector" accelerator="Shortcut+E"/>
 						<MenuItem text="Clear Connectors" fx:id="clearConnectorsButton" onAction="#clearConnectors" accelerator="Shortcut+W"/>
 						<Menu fx:id="connectorTypeMenu" text="Connector Type">
@@ -58,6 +65,8 @@
 								<RadioMenuItem fx:id="bottomConnectorPositionButton" text="Bottom"/>
 							</items>
 						</Menu>
+						<MenuItem text="Refresh Scheme" fx:id="refreshSchemeButton"  onAction="#refreshScheme" accelerator="F5"/>
+						<MenuItem text="Generate file" fx:id="generateFileButton"  onAction="#generateFile" accelerator="F10"/>
 					</items>
 				</Menu>
 				<Menu text="Settings">
@@ -67,7 +76,8 @@
 						<RadioMenuItem fx:id="readOnlyButton" text="Read Only" />
 						<Menu text="Skin Type">
 							<items>
-								<RadioMenuItem fx:id="defaultSkinButton" text="Default" onAction="#setDefaultSkin" selected="true"/>
+								<RadioMenuItem fx:id="myScheme" text="My Scheme" onAction="#setMyScheme" selected="true"/>
+								<RadioMenuItem fx:id="defaultSkinButton" text="Default" onAction="#setDefaultSkin"/>
 								<RadioMenuItem fx:id="treeSkinButton" text="Tree" onAction="#setTreeSkin"/>
 								<RadioMenuItem fx:id="titledSkinButton" text="Titled" onAction="#setTitledSkin"/>
 							</items>
@@ -79,6 +89,8 @@
 								<RadioMenuItem fx:id="gappedStyleButton" text="Gaps" onAction="#setGappedStyle"/>
 							</items>
 						</Menu>
+						<MenuItem fx:id="preferencesButton" text="Preferences" onAction="#setPreferences"/>
+						<CheckMenuItem fx:id="viewNodeList" text="View node list" onAction="#viewNodeList"/>
 					</items>
 				</Menu>
 			</menus>

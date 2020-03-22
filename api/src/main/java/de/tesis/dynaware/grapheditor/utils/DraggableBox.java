@@ -60,7 +60,7 @@ public class DraggableBox extends StackPane
     private DraggableBox dependencyX;
     private DraggableBox dependencyY;
 
-    /**
+    /**skin.dispose();
      * Creates an empty draggable box.
      */
     public DraggableBox()

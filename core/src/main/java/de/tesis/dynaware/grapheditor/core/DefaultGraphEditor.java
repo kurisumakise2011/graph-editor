@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import de.tesis.dynaware.grapheditor.core.skins.SkinManager;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
 
@@ -139,6 +140,7 @@ public class DefaultGraphEditor implements GraphEditor
     @Override
     public void reload()
     {
+        mModelProperty.get().bump();
         mController.process();
     }
 

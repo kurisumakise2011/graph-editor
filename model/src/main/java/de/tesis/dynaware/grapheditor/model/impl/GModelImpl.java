@@ -122,6 +122,16 @@ public class GModelImpl extends MinimalEObjectImpl.Container implements GModel {
 	protected double contentHeight = CONTENT_HEIGHT_EDEFAULT;
 
 	/**
+	 * Version of model, by default 1
+	 */
+	private int version = 1;
+
+	/**
+	 * Last saved version by default 1, changes were not made
+	 */
+	private int persistedVersion = 1;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -225,6 +235,21 @@ public class GModelImpl extends MinimalEObjectImpl.Container implements GModel {
 		contentHeight = newContentHeight;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, GraphPackage.GMODEL__CONTENT_HEIGHT, oldContentHeight, contentHeight));
+	}
+
+	@Override
+	public boolean isUpdated() {
+		return version != persistedVersion;
+	}
+
+	@Override
+	public void bump() {
+		version++;
+	}
+
+	@Override
+	public void persist() {
+		persistedVersion = version;
 	}
 
 	/**

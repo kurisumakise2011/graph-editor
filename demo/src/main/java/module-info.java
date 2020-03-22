@@ -13,5 +13,5 @@ module fx.graph.editor.demo
     requires org.slf4j;
 
     exports de.tesis.dynaware.grapheditor.demo to javafx.graphics, javafx.fxml;
-    opens de.tesis.dynaware.grapheditor.demo to javafx.fxml;
+    opens de.tesis.dynaware.grapheditor.demo to javafx.fxml, javafx.base;
 }

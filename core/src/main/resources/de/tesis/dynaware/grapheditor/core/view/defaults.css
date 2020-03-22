@@ -231,3 +231,32 @@
 	-fx-opacity: 0.7;
 	-fx-effect: dropshadow(one-pass-box, rgba(180, 180, 180), 5, 0, 1, 1);
 }
+
+.and-node-border {
+	-fx-stroke: black;
+	-fx-stroke-type: inside;
+	-fx-stroke-width: 1;
+	-fx-arc-width: 6;
+	-fx-arc-height: 6;
+	-fx-fill: null;
+}
+
+.and-node-background {
+	-fx-fill: rgb(255,255,255);
+	-fx-stroke: null;
+	-fx-stroke-type: inside;
+	-fx-stroke-width: 1;
+	-fx-arc-width: 6;
+	-fx-arc-height: 6;
+}
+
+.and-node-background:selected {
+	-fx-fill: derive(rgb(249,247,250), -5%);
+}
+
+.and-node-selection-halo {
+	-fx-stroke: gray;
+	-fx-stroke-type: inside;
+	-fx-stroke-line-cap: butt;
+	-fx-fill: null;
+}

@@ -3,10 +3,25 @@
  */
 package de.tesis.dynaware.grapheditor.demo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import de.tesis.dynaware.grapheditor.demo.customskins.AndNodeSkin;
+import de.tesis.dynaware.grapheditor.demo.customskins.MySchemeSkinController;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckMenuItem;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -41,14 +56,27 @@ import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Controller for the {@link GraphEditorDemo} application.
  */
 public class GraphEditorDemoController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GraphEditorDemoController.class);
 
     private static final String STYLE_CLASS_TITLED_SKINS = "titled-skins"; //$NON-NLS-1$
-
+    public CheckMenuItem viewNodeList;
+    @FXML
+    private RadioMenuItem myScheme;
+    @FXML
+    private MenuItem preferencesButton;
+    @FXML
+    private Menu addNodeMenu;
+    @FXML
+    private MenuItem generateFileButton;
+    @FXML
+    private MenuItem refreshSchemeButton;
     @FXML
     private AnchorPane root;
     @FXML
@@ -104,6 +132,7 @@ public class GraphEditorDemoController {
     private DefaultSkinController defaultSkinController;
     private TreeSkinController treeSkinController;
     private TitledSkinController titledSkinController;
+    private MySchemeSkinController mySchemeSkinController;
 
     private final ObjectProperty<SkinController> activeSkinController = new SimpleObjectProperty<>()
     {
@@ -133,14 +162,19 @@ public class GraphEditorDemoController {
         defaultSkinController = new DefaultSkinController(graphEditor, graphEditorContainer);
         treeSkinController = new TreeSkinController(graphEditor, graphEditorContainer);
         titledSkinController = new TitledSkinController(graphEditor, graphEditorContainer);
+        mySchemeSkinController = new MySchemeSkinController(graphEditor, graphEditorContainer);
 
-        activeSkinController.set(defaultSkinController);
+        activeSkinController.set(mySchemeSkinController);
 
 		graphEditor.modelProperty().addListener((w, o, n) -> selectionCopier.initialize(n));
         selectionCopier.initialize(model);
 
         initializeMenuBar();
         addActiveSkinControllerListener();
+
+        root.setOnMouseMoved(mouseEvent -> graphEditorContainer.setMouseEvent(mouseEvent));
+
+        GraphEditorDemo.primary.setOnCloseRequest(shutdownHook());
     }
 
     @FXML
@@ -189,7 +223,12 @@ public class GraphEditorDemoController {
 
     @FXML
     public void exit() {
-        Platform.exit();
+        boolean saved = handleUnsavedSchema(new WindowEvent(
+                GraphEditorDemo.primary,
+                WindowEvent.WINDOW_CLOSE_REQUEST));
+        if (!saved) {
+            Platform.exit();
+        }
     }
 
     @FXML
@@ -279,7 +318,7 @@ public class GraphEditorDemoController {
     private void initializeMenuBar() {
 
         final ToggleGroup skinGroup = new ToggleGroup();
-        skinGroup.getToggles().addAll(defaultSkinButton, treeSkinButton, titledSkinButton);
+        skinGroup.getToggles().addAll(defaultSkinButton, treeSkinButton, titledSkinButton, myScheme);
 
         final ToggleGroup connectionStyleGroup = new ToggleGroup();
         connectionStyleGroup.getToggles().addAll(gappedStyleButton, detouredStyleButton);
@@ -359,6 +398,8 @@ public class GraphEditorDemoController {
                 activeSkinController.set(treeSkinController);
             } else if (TitledSkinConstants.TITLED_NODE.equals(type)) {
                 activeSkinController.set(titledSkinController);
+            } else if (AndNodeSkin.AND_NODE_TYPE.equals(type)) {
+                activeSkinController.set(mySchemeSkinController);
             } else {
                 activeSkinController.set(defaultSkinController);
             }
@@ -423,5 +464,117 @@ public class GraphEditorDemoController {
         } else {
             return Side.BOTTOM;
         }
+    }
+
+    @FXML
+    public void refreshScheme(ActionEvent actionEvent) {
+
+    }
+
+    @FXML
+    public void generateFile(ActionEvent actionEvent) {
+
+    }
+
+    @FXML
+    public void addNodeAnd(ActionEvent actionEvent) {
+        addNode();
+    }
+
+    @FXML
+    public void addNodeTr(ActionEvent actionEvent) {
+        addNode();
+    }
+
+    @FXML
+    public void addNodeOr3(ActionEvent actionEvent) {
+        addNode();
+    }
+
+    @FXML
+    public void setMyScheme(ActionEvent actionEvent) {
+        activeSkinController.set(mySchemeSkinController);
+    }
+
+    @FXML
+    public void setPreferences(ActionEvent actionEvent) {
+        try {
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("/de/tesis/dynaware/grapheditor/demo/Preferences.fxml"));
+            var stage = new Stage();
+            stage.setTitle("Preferences");
+            stage.setScene(new Scene(root, Property.PREFERENCES_WIDTH.getInt(), Property.PREFERENCES_HEIGHT.getInt()));
+            stage.setResizable(false);
+            stage.initOwner(GraphEditorDemo.primary);
+            stage.show();
+        } catch (IOException e) {
+            LOGGER.error("could nod load preferences", e);
+            throw new GraphEditorException(e);
+        }
+    }
+
+    public void viewNodeList(ActionEvent actionEvent) {
+        if (viewNodeList.isSelected()) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass()
+                        .getResource("/de/tesis/dynaware/grapheditor/demo/NodeList.fxml"));
+                NodeList controller = new NodeList();
+                controller.setGraphEditor(graphEditor);
+                controller.setGraphEditorContainer(graphEditorContainer);
+                controller.setSelectionCopier(selectionCopier);
+
+                loader.setController(controller);
+                Parent root = loader.load();
+
+                var stage = new Stage();
+                stage.setTitle("Nodes");
+                stage.setScene(new Scene(root, Property.NODES_VIEW_WIDTH.getInt(), Property.NODES_VIEW_HEIGHT.getInt()));
+                stage.initOwner(GraphEditorDemo.primary);
+                stage.show();
+            } catch (IOException e) {
+                LOGGER.error("could nod load node list", e);
+                throw new GraphEditorException(e);
+            }
+        }
+    }
+
+    public EventHandler<WindowEvent> shutdownHook() {
+        return this::handleUnsavedSchema;
+    }
+
+    private boolean handleUnsavedSchema(WindowEvent event) {
+        boolean itCanBePersisted = Optional.ofNullable(graphEditor.getModel())
+                .map(GModel::getNodes)
+                .map(nodes -> !nodes.isEmpty())
+                .orElse(false);
+
+        boolean updated = Optional.ofNullable(graphEditor.getModel())
+                .map(GModel::isUpdated)
+                .orElse(false);
+
+        if (itCanBePersisted && updated) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setHeaderText("You have one unsaved schema");
+            alert.setContentText("Do you want to save the open schema before leaving?");
+
+            ButtonType yes = new ButtonType("Yes");
+            ButtonType no = new ButtonType("No");
+            ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            alert.getButtonTypes().setAll(yes, no, cancel);
+
+            ButtonType result = alert.showAndWait().orElse(null);
+            if (result == yes) {
+                graphEditorPersistence.saveToFile(graphEditor);
+            } else if (result == no) {
+                Platform.exit();
+                System.exit(0);
+            } else {
+                event.consume();
+            }
+            return true;
+        }
+        return false;
     }
 }

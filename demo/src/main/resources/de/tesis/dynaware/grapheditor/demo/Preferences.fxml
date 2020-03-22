@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="preferences" prefHeight="418.0" prefWidth="645.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.tesis.dynaware.grapheditor.demo.Preferences">
+   <children>
+      <Button fx:id="applyButton" layoutX="248.0" layoutY="377.0" mnemonicParsing="false" onAction="#apply" prefHeight="31.0" prefWidth="120.0" text="Apply">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
+      <Button fx:id="cancelButton" layoutX="518.0" layoutY="378.0" mnemonicParsing="false" onAction="#cancel" prefHeight="31.0" prefWidth="120.0" text="Cancel">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
+      <Label layoutX="47.0" layoutY="49.0" text="Node height">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Slider fx:id="nodeHeightSlider" blockIncrement="1.0" layoutX="47.0" layoutY="74.0" max="300.0" min="50.0" prefHeight="33.0" prefWidth="212.0" showTickLabels="true" value="125.0" />
+      <Slider fx:id="nodeWidthSlider" blockIncrement="1.0" layoutX="49.0" layoutY="131.0" max="300.0" min="50.0" prefHeight="33.0" prefWidth="212.0" showTickLabels="true" value="125.0" />
+      <Slider fx:id="nodeLabelFontSizeSlider" blockIncrement="1.0" layoutX="320.0" layoutY="131.0" majorTickUnit="2.0" max="26.0" min="12.0" minorTickCount="1" prefHeight="16.0" prefWidth="212.0" showTickLabels="true" value="14.0" />
+      <Slider fx:id="nodeSolidSlider" blockIncrement="1.0" layoutX="47.0" layoutY="192.0" majorTickUnit="2.0" max="10.0" min="2.0" minorTickCount="1" prefHeight="33.0" prefWidth="212.0" showTickLabels="true" value="5.0" />
+      <Slider fx:id="commandLabelFontSizeSlider" blockIncrement="1.0" layoutX="316.0" layoutY="192.0" majorTickUnit="2.0" max="18.0" min="8.0" minorTickCount="1" prefHeight="33.0" prefWidth="219.0" showTickLabels="true" value="14.0" />
+      <Slider fx:id="connectorSizeSlider" blockIncrement="1.0" layoutX="46.0" layoutY="249.0" majorTickUnit="2.0" max="10.0" min="4.0" minorTickCount="1" prefHeight="33.0" prefWidth="212.0" showTickLabels="true" value="5.0" />
+      <Slider fx:id="circleSizeSlider" blockIncrement="1.0" layoutX="320.0" layoutY="74.0" majorTickUnit="2.0" max="14.0" min="4.0" prefHeight="16.0" prefWidth="212.0" showTickLabels="true" value="5.0" />
+      <RadioButton fx:id="promptNodeRadio" layoutX="322.0" layoutY="290.0" mnemonicParsing="false" text="Prompt before node creation">
+         <font>
+            <Font size="16.0" />
+         </font></RadioButton>
+      <RadioButton fx:id="displayBordersRadio" layoutX="46.0" layoutY="290.0" mnemonicParsing="false" text="Display border of nodes">
+         <font>
+            <Font size="16.0" />
+         </font></RadioButton>
+      <Label layoutX="48.0" layoutY="107.0" text="Node width">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="323.0" layoutY="49.0" text="Circle size">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="320.0" layoutY="107.0" text="Node label font size">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="51.0" layoutY="173.0" text="Node solid">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="323.0" layoutY="173.0" text="Command label font size">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="47.0" layoutY="227.0" text="Connector size">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Button fx:id="okButton" layoutX="382.0" layoutY="376.0" mnemonicParsing="false" onAction="#ok" prefHeight="33.0" prefWidth="120.0" text="OK">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
+   </children>
+</AnchorPane>
