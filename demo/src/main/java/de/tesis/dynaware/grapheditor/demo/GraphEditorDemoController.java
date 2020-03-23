@@ -499,8 +499,9 @@ public class GraphEditorDemoController {
     @FXML
     public void setPreferences(ActionEvent actionEvent) {
         try {
-            Parent root = FXMLLoader.load(getClass()
-                    .getResource("/de/tesis/dynaware/grapheditor/demo/Preferences.fxml"));
+            FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.load(getClass()
+                    .getResourceAsStream("/de/tesis/dynaware/grapheditor/demo/Preferences.fxml"));
             var stage = new Stage();
             stage.setTitle("Preferences");
             stage.setScene(new Scene(root, Property.PREFERENCES_WIDTH.getInt(), Property.PREFERENCES_HEIGHT.getInt()));
@@ -516,15 +517,15 @@ public class GraphEditorDemoController {
     public void viewNodeList(ActionEvent actionEvent) {
         if (viewNodeList.isSelected()) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass()
-                        .getResource("/de/tesis/dynaware/grapheditor/demo/NodeList.fxml"));
+                FXMLLoader loader = new FXMLLoader();
                 NodeList controller = new NodeList();
                 controller.setGraphEditor(graphEditor);
                 controller.setGraphEditorContainer(graphEditorContainer);
                 controller.setSelectionCopier(selectionCopier);
 
                 loader.setController(controller);
-                Parent root = loader.load();
+                Parent root = loader.load(getClass()
+                        .getResourceAsStream("/de/tesis/dynaware/grapheditor/demo/NodeList.fxml"));
 
                 var stage = new Stage();
                 stage.setTitle("Nodes");

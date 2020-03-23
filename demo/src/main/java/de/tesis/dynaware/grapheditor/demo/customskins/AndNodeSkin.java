@@ -101,13 +101,13 @@ public class AndNodeSkin extends GNodeSkin {
         pane.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass()
-                            .getResource("/de/tesis/dynaware/grapheditor/demo/NodeProperties.fxml"));
+                    FXMLLoader loader = new FXMLLoader();
                     NodeProperties controller = new NodeProperties();
                     controller.setSkin(this);
 
                     loader.setController(controller);
-                    Parent root = loader.load();
+                    Parent root = loader.load(getClass()
+                            .getResourceAsStream("/de/tesis/dynaware/grapheditor/demo/NodeProperties.fxml"));
 
                     var stage = new Stage();
                     stage.setTitle("Node properties");

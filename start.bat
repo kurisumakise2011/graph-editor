@@ -1,3 +1,3 @@
 @echo off
-cd demo/target
-java -jar standalone-jar-with-dependencies.jar
+cd demo/target/deploy
+java --module-path="libs" --add-modules=javafx.controls,javafx.base,javafx.fxml,javafx.graphics -jar GraphEditorDemo.jar

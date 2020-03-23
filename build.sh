@@ -35,8 +35,5 @@ if [[ ! -d "$WORKDIR/graph-editor" ]];
   else git pull origin master
 fi
 
-cd "$WORKDIR/graph-editor" && mvn clean package
-export TARGET_JAR="$WORKDIR/graph-editor/demo/target/deploy"
-
-java --module-path="$TARGET_JAR/libs" --add-modules=javafx.controls,javafx.base,javafx.fxml,javafx.graphics -jar "$TARGET_JAR"/GraphEditorDemo.jar
+cd "$WORKDIR/graph-editor" && mvn clean package -Dmaven.test.skip=true
 
