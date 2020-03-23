@@ -18,6 +18,8 @@ if [[ "$_java" ]]; then
     fi
 fi
 
-wget https://github.com/kurisumakise2011/graph-editor/raw/master/artifactory/standalone-jar-with-dependencies.jar
-mv standalone-jar-with-dependencies.jar standalone.jar
+if [[ ! -f standalone.jar ]]; then
+  wget https://github.com/kurisumakise2011/graph-editor/raw/master/artifactory/standalone-jar-with-dependencies.jar
+  mv standalone-jar-with-dependencies.jar standalone.jar
+fi
 java -jar standalone.jar
